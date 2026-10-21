@@ -341,6 +341,16 @@
       function formatRegistrationNumber(f) {
         return [f.area, f.series, f.block, f.last].map(clean).filter(Boolean).join('-');
       }
+      /* Scooter: 2 lines (area-series / block-last). Others: 1 line */
+      function plateLines(f, plate) {
+        if (plate.id === 'scooter') {
+          const top = [f.area, f.series].map(clean).filter(Boolean).join('-');
+          const bot = [f.block, f.last].map(clean).filter(Boolean).join('-');
+          return [top, bot].filter(Boolean);
+        }
+        const t = formatRegistrationNumber(f);
+        return t ? [t] : [];
+      }
       function validateRegistrationNumber(f) {
         if (!clean(f.area)) return 'অনুগ্রহ করে এলাকা / মেট্রো নির্বাচন করুন।';
         if (!clean(f.series)) return 'অনুগ্রহ করে সিরিজ নির্বাচন করুন।';
@@ -368,22 +378,29 @@
         const bw = Math.round(BORDER_MM / 25.4 * dpi);
         ctx.strokeStyle = '#000000'; ctx.lineWidth = bw; ctx.lineJoin = 'miter';
         ctx.strokeRect(bw / 2, bw / 2, width - bw, height - bw);
-        if (!text) return c;
+        const lines = Array.isArray(text) ? text : (text ? [text] : []);
+        if (!lines.length) return c;
+        const n = lines.length;
         const pad = Math.round(width * 0.05) + bw;
         const maxW = width - pad * 2, maxH = height - (bw * 2 + Math.round(height * 0.12));
         let size = Math.round(height * plate.fontRatio);
         ctx.fillStyle = '#000000'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-        let m;
+        let ms;
+        const inkH = () => ms.reduce((s, m) => s + m.actualBoundingBoxAscent + m.actualBoundingBoxDescent, 0) + (n > 1 ? size * 0.3 : 0) * (n - 1);
         for (; ;) {
           ctx.font = '800 ' + size + 'px ' + FALLBACK;
-          m = ctx.measureText(text);
-          const th = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
-          if ((m.width <= maxW && th <= maxH) || size <= 8) break;
+          ms = lines.map(l => ctx.measureText(l));
+          if ((ms.every(m => m.width <= maxW) && inkH() <= maxH) || size <= 8) break;
           size -= Math.max(1, Math.round(size * 0.02));
         }
-        const x = (width - m.width) / 2;
-        const y = (height + m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
-        ctx.fillText(text, x, y);
+        const gap = n > 1 ? size * 0.3 : 0;
+        let y = (height - inkH()) / 2;
+        lines.forEach((l, i) => {
+          const m = ms[i];
+          y += m.actualBoundingBoxAscent;
+          ctx.fillText(l, (width - m.width) / 2, y);
+          y += m.actualBoundingBoxDescent + gap;
+        });
         return c;
       }
       /* Write 300 DPI into JFIF header so printers/OS use the physical size */
@@ -484,7 +501,7 @@
         return h('div', null,
           h('div', { className: 'stage' },
             h('canvas', { ref, role: 'img', 'aria-label': 'নম্বরপ্লেটের প্রিভিউ: ' + text, style: { width: '100%', maxWidth: plate.widthMm * 2.6 + 'px', aspectRatio: plate.widthMm + ' / ' + plate.heightMm } })),
-          h('p', { className: 'meta' }, (text ? '' : 'তথ্য দিলে প্রিভিউতে নম্বর দেখা যাবে। ') + plate.widthMm + ' × ' + plate.heightMm + ' মি.মি. • ডাউনলোড সাইজ ' + calculateCanvasDimensions(plate, DPI).width + ' × ' + calculateCanvasDimensions(plate, DPI).height + ' পিক্সেল'));
+          h('p', { className: 'meta' }, (text.length ? '' : 'তথ্য দিলে প্রিভিউতে নম্বর দেখা যাবে। ') + plate.widthMm + ' × ' + plate.heightMm + ' মি.মি. • ডাউনলোড সাইজ ' + calculateCanvasDimensions(plate, DPI).width + ' × ' + calculateCanvasDimensions(plate, DPI).height + ' পিক্সেল'));
       });
 
       const DownloadIcon = () => h('svg', { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true },
@@ -504,7 +521,7 @@
         const [fontReady, setFontReady] = useState(false);
         const busyRef = useRef(false);
         const plate = useMemo(() => PLATES.find(p => p.id === plateId), [plateId]);
-        const text = useMemo(() => formatRegistrationNumber(form), [form]);
+        const text = useMemo(() => plateLines(form, plate), [form, plate]);
         const setField = useCallback((k, v) => { setForm(f => ({ ...f, [k]: v })); setError(''); setOk(''); }, []);
         useEffect(() => { loadBengaliFont().then(() => setFontReady(true)); }, []);
         const onDownload = async () => {
