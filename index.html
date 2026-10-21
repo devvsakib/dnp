@@ -1,219 +1,548 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>মোটরসাইকেল নম্বরপ্লেট জেনারেটর</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&display=swap" rel="stylesheet">
-<script>
-  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
-<style>
-:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:#fff;color:#000;font-family:"Noto Sans Bengali","Kalpurush","Siyam Rupali",system-ui,sans-serif;line-height:1.6;font-size:16px}
-.wrap{max-width:960px;margin:0 auto;padding:24px 16px 48px}
-h1{font-size:clamp(1.5rem,5vw,2.2rem);margin:0 0 8px;font-weight:800;line-height:1.3}
-.sub{margin:0 0 28px;color:#333}
-.grid{display:grid;gap:20px;grid-template-columns:1fr}
-@media(min-width:800px){.grid{grid-template-columns:360px 1fr;align-items:start}}
-.card{border:1px solid #e3e3e3;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);background:#fff}
-.card h2{font-size:1.05rem;margin:0 0 14px;font-weight:700}
-label{display:block;font-weight:600;margin:0 0 4px;font-size:.95rem}
-.field{margin-bottom:14px}
-.hint{font-weight:400;color:#666;font-size:.85rem}
-input,select{width:100%;min-height:52px;padding:10px 14px;font:inherit;font-size:1.1rem;color:#000;background:#fff;border:1px solid #bbb;border-radius:10px}
-input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid #000;outline-offset:2px}
-.stage{display:flex;justify-content:center;padding:16px;border:1px dashed #d0d0d0;border-radius:10px;background:#fff;overflow:hidden}
-.stage canvas{display:block;max-width:100%;height:auto;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-.meta{margin:10px 0 0;color:#444;font-size:.9rem;text-align:center}
-.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;margin-top:16px;border:0;border-radius:12px;background:#000;color:#fff;font:inherit;font-size:1.1rem;font-weight:700;cursor:pointer}
-.btn:disabled{opacity:.6;cursor:not-allowed}
-.msg{margin-top:12px;padding:10px 14px;border-radius:10px;font-size:.95rem}
-.err{border:1px solid #000;background:#fff;color:#000}
-.ok{border:1px solid #000;background:#f4f4f4}
-.notes{margin-top:16px;font-size:.9rem;color:#333}
-.notes p{margin:4px 0}
-.spin{width:18px;height:18px;border:3px solid #fff5;border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite}
-@keyframes s{to{transform:rotate(360deg)}}
-.disc{margin-top:28px;font-size:.85rem;color:#555;border-top:1px solid #eee;padding-top:14px}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>মোটরসাইকেল নম্বরপ্লেট জেনারেটর</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: #000;
+      font-family: "Noto Sans Bengali", "Kalpurush", "Siyam Rupali", system-ui, sans-serif;
+      line-height: 1.6;
+      font-size: 16px
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 48px
+    }
+
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+      margin: 0 0 8px;
+      font-weight: 800;
+      line-height: 1.3
+    }
+
+    .sub {
+      margin: 0 0 28px;
+      color: #333
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1fr
+    }
+
+    @media(min-width:800px) {
+      .grid {
+        grid-template-columns: 360px 1fr;
+        align-items: start
+      }
+    }
+
+    .card {
+      border: 1px solid #e3e3e3;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+      background: #fff
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      margin: 0 0 14px;
+      font-weight: 700
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 0 0 4px;
+      font-size: .95rem
+    }
+
+    .field {
+      margin-bottom: 14px
+    }
+
+    input::placeholder {
+      color: #9a9a9a
+    }
+
+    select.empty {
+      color: #8a8a8a
+    }
+
+    select option,
+    select optgroup {
+      color: #000
+    }
+
+    .combo {
+      position: relative
+    }
+
+    .combo-list {
+      position: absolute;
+      z-index: 20;
+      left: 0;
+      right: 0;
+      top: 100%;
+      margin-top: 4px;
+      max-height: 280px;
+      overflow: auto;
+      background: #fff;
+      border: 1px solid #bbb;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .15)
+    }
+
+    .combo-g {
+      padding: 6px 14px;
+      font-size: .8rem;
+      font-weight: 700;
+      color: #666;
+      background: #f6f6f6
+    }
+
+    .combo-o {
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 1.05rem
+    }
+
+    .combo-o.on {
+      background: #000;
+      color: #fff
+    }
+
+    .combo-o.sel {
+      font-weight: 700
+    }
+
+    .combo-empty {
+      padding: 14px;
+      color: #666
+    }
+
+    .seg {
+      display: flex;
+      gap: 6px;
+      margin: 0 0 8px
+    }
+
+    .seg button {
+      flex: 1;
+      min-height: 40px;
+      border: 1px solid #bbb;
+      background: #fff;
+      color: #000;
+      border-radius: 8px;
+      font: inherit;
+      font-size: .95rem;
+      cursor: pointer
+    }
+
+    .seg button[aria-pressed=true] {
+      background: #000;
+      color: #fff;
+      border-color: #000
+    }
+
+    .seg button:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px
+    }
+
+    .hint {
+      font-weight: 400;
+      color: #666;
+      font-size: .85rem
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 52px;
+      padding: 10px 14px;
+      font: inherit;
+      font-size: 1.1rem;
+      color: #000;
+      background: #fff;
+      border: 1px solid #bbb;
+      border-radius: 10px
+    }
+
+    input:focus-visible,
+    select:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px
+    }
+
+    .stage {
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+      border: 1px dashed #d0d0d0;
+      border-radius: 10px;
+      background: #fff;
+      overflow: hidden
+    }
+
+    .stage canvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .18)
+    }
+
+    .meta {
+      margin: 10px 0 0;
+      color: #444;
+      font-size: .9rem;
+      text-align: center
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 56px;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 12px;
+      background: #000;
+      color: #fff;
+      font: inherit;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed
+    }
+
+    .msg {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: .95rem
+    }
+
+    .err {
+      border: 1px solid #000;
+      background: #fff;
+      color: #000
+    }
+
+    .ok {
+      border: 1px solid #000;
+      background: #f4f4f4
+    }
+
+    .notes {
+      margin-top: 16px;
+      font-size: .9rem;
+      color: #333
+    }
+
+    .notes p {
+      margin: 4px 0
+    }
+
+    .spin {
+      width: 18px;
+      height: 18px;
+      border: 3px solid #fff5;
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: s .8s linear infinite
+    }
+
+    @keyframes s {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .disc {
+      margin-top: 28px;
+      font-size: .85rem;
+      color: #555;
+      border-top: 1px solid #eee;
+      padding-top: 14px
+    }
+  </style>
 </head>
+
 <body>
-<div id="root"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-<script>
-(function(){
-const {useState,useEffect,useRef,useMemo,useCallback,memo}=React;
-const h=React.createElement;
+  <div id="root"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script>
+    (function () {
+      const { useState, useEffect, useRef, useMemo, useCallback, memo } = React;
+      const h = React.createElement;
 
-/** @typedef {{area:string,series:string,block:string,last:string}} RegistrationForm */
-/** @typedef {{id:string,label:string,widthMm:number,heightMm:number,fontRatio:number}} PlateSize */
-const DPI=300;
-const PLATES=[
-  {id:'scooter',label:'স্কুটার',widthMm:200,heightMm:100,fontRatio:0.4},
-  {id:'other',label:'অন্যান্য মোটরসাইকেল',widthMm:285,heightMm:50,fontRatio:0.62}
-];
-const FONT_FAMILY='"Noto Sans Bengali"';
-const FALLBACK='"Noto Sans Bengali","Kalpurush","Siyam Rupali",sans-serif';
-const BORDER_MM=2.5;
+      /** @typedef {{area:string,series:string,block:string,last:string}} RegistrationForm */
+      /** @typedef {{id:string,label:string,widthMm:number,heightMm:number,fontRatio:number}} PlateSize */
+      const DPI = 300;
+      const PLATES = [
+        { id: 'scooter', label: 'স্কুটার', widthMm: 200, heightMm: 100, fontRatio: 0.4 },
+        { id: 'other', label: 'অন্যান্য মোটরসাইকেল', widthMm: 285, heightMm: 50, fontRatio: 0.62 }
+      ];
+      const FONT_FAMILY = '"Noto Sans Bengali"';
+      const FALLBACK = '"Noto Sans Bengali","Kalpurush","Siyam Rupali",sans-serif';
+      const BORDER_MM = 2.5;
+      const METROS = ['ঢাকা মেট্রো', 'চট্ট মেট্রো', 'রাজশাহী মেট্রো', 'খুলনা মেট্রো', 'সিলেট মেট্রো', 'বরিশাল মেট্রো'];
+      const DISTRICTS = ['ঢাকা', 'গাজীপুর', 'নারায়ণগঞ্জ', 'নরসিংদী', 'মানিকগঞ্জ', 'মুন্সীগঞ্জ', 'কিশোরগঞ্জ', 'টাঙ্গাইল', 'ফরিদপুর', 'গোপালগঞ্জ', 'মাদারীপুর', 'রাজবাড়ী', 'শরীয়তপুর', 'ময়মনসিংহ', 'জামালপুর', 'নেত্রকোণা', 'শেরপুর', 'চট্টগ্রাম', 'কক্সবাজার', 'কুমিল্লা', 'ফেনী', 'ব্রাহ্মণবাড়িয়া', 'নোয়াখালী', 'লক্ষ্মীপুর', 'চাঁদপুর', 'খাগড়াছড়ি', 'রাঙ্গামাটি', 'বান্দরবান', 'রাজশাহী', 'নাটোর', 'নওগাঁ', 'চাঁপাইনবাবগঞ্জ', 'পাবনা', 'সিরাজগঞ্জ', 'বগুড়া', 'জয়পুরহাট', 'খুলনা', 'বাগেরহাট', 'সাতক্ষীরা', 'যশোর', 'ঝিনাইদহ', 'মাগুরা', 'নড়াইল', 'কুষ্টিয়া', 'চুয়াডাঙ্গা', 'মেহেরপুর', 'বরিশাল', 'ভোলা', 'পটুয়াখালী', 'পিরোজপুর', 'ঝালকাঠি', 'বরগুনা', 'সিলেট', 'মৌলভীবাজার', 'হবিগঞ্জ', 'সুনামগঞ্জ', 'রংপুর', 'দিনাজপুর', 'গাইবান্ধা', 'কুড়িগ্রাম', 'লালমনিরহাট', 'নীলফামারী', 'পঞ্চগড়', 'ঠাকুরগাঁও'];
+      const SERIES_GROUPS = [
+        ['🏍️ মোটরসাইকেল বা বাইক সিরিজ', [['হ', 'সাধারণত ৮০ থেকে ১২৫ সিসি (CC) ইঞ্জিনের মোটরসাইকেলের জন্য ব্যবহৃত হয়।'], ['ল', 'সাধারণত ১৩৫ সিসির বেশি বা বড় ইঞ্জিনের মোটরসাইকেলের ক্ষেত্রে এই অক্ষর বসে।']]],
+        ['🚗 প্রাইভেট কার ও জিপ সিরিজ', [['ক', 'সাধারণত ১০০০ সিসি বা তার কম ক্ষমতার ছোট প্রাইভেট কার।'], ['খ', 'প্রাইভেট কার বা ব্যক্তিগত ব্যবহারের মাঝারি গাড়ি।'], ['গ', 'সাধারণত ১৫০০ সিসি বা তার বেশি ক্ষমতার বড় প্রাইভেট কার।'], ['ঘ', 'জিপ বা স্পোর্টস ইউটিলিটি ভেহিকল (SUV)।']]],
+        ['🚌 বাস, মিনিবাস ও ভারী যানবাহন', [['জ', 'মিনিবাসের জন্য নির্ধারিত ক্যাটাগরি।'], ['ঝ', 'বড় আকারের বাস বা কোস্টার।'], ['ট', 'পণ্য পরিবহনের জন্য বড় ও ভারী ট্রাক।'], ['ড', 'মাঝারি ধরনের ট্রাকের জন্য।']]],
+        ['🛺 সিএনজি ও অটোরিকশা', [['থ', 'ভাড়ায় চালিত বা কমার্শিয়াল সিএনজি অটোরিকশা।'], ['দ', 'ব্যক্তিগত বা নিজের ব্যবহারের প্রাইভেট সিএনজি।']]],
+        ['🚚 পিকআপ ও হালকা যান', [['ন', 'ছোট সাইজের পিকআপ বা লাইট কমার্শিয়াল যান।'], ['ম', 'পণ্য পরিবহনের কাজে ব্যবহৃত মাঝারি পিকআপ বা ডেলিভারি ভ্যান।'], ['ভ', '২০০০ সিসি প্লাস প্রাইভেট গাড়ি কিংবা কোনো কোনো জোনে হালকা মালবাহী যান হিসেবে এটি দেখা যায়।'], ['ই', 'সাধারণ ভটভটি বা হিউম্যান হলার জাতীয় ছোট লোকাল যান।']]],
+        ['👑 বিশেষ সরকারি সিরিজ', [['য', 'শুধুমাত্র প্রধানমন্ত্রীর কার্যালয়ের আওতাধীন যানবাহনগুলোর জন্য এই কোডটি সংরক্ষিত।']]]
+      ];
 
-const clean=s=>String(s||'').replace(/\s+/g,' ').replace(/^[\s\-–—]+|[\s\-–—]+$/g,'').trim();
-function formatRegistrationNumber(f){
-  return [f.area,f.series,f.block,f.last].map(clean).filter(Boolean).join('-');
-}
-function validateRegistrationNumber(f){
-  if(!clean(f.area))return 'অনুগ্রহ করে এলাকা / মেট্রো লিখুন।';
-  if(!clean(f.block))return 'অনুগ্রহ করে নম্বর ব্লক লিখুন।';
-  if(!clean(f.last))return 'অনুগ্রহ করে শেষের নম্বর লিখুন।';
-  return '';
-}
-function calculateCanvasDimensions(p,dpi){
-  return {width:Math.round(p.widthMm/25.4*dpi),height:Math.round(p.heightMm/25.4*dpi)};
-}
-let fontPromise=null;
-function loadBengaliFont(text){
-  const probe=(text||'ঢাকা মেট্রো ০১২৩৪৫৬৭৮৯ ১২৩৪৫৬৭৮৯ ল')+' ০১২৩৪৫৬৭৮৯ ১২৩৪৫৬৭৮৯-';
-  return Promise.all([
-    document.fonts.load('700 100px '+FONT_FAMILY,probe),
-    document.fonts.load('800 100px '+FONT_FAMILY,probe)
-  ]).then(()=>document.fonts.ready).catch(()=>{});
-}
-function generateNumberPlateCanvas(text,plate,dpi,target){
-  const {width,height}=calculateCanvasDimensions(plate,dpi);
-  const c=target||document.createElement('canvas');
-  c.width=width;c.height=height;
-  const ctx=c.getContext('2d');
-  ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,width,height);
-  const bw=Math.round(BORDER_MM/25.4*dpi);
-  ctx.strokeStyle='#000000';ctx.lineWidth=bw;ctx.lineJoin='miter';
-  ctx.strokeRect(bw/2,bw/2,width-bw,height-bw);
-  if(!text)return c;
-  const pad=Math.round(width*0.05)+bw;
-  const maxW=width-pad*2, maxH=height-(bw*2+Math.round(height*0.12));
-  let size=Math.round(height*plate.fontRatio);
-  ctx.fillStyle='#000000';ctx.textAlign='left';ctx.textBaseline='alphabetic';
-  let m;
-  for(;;){
-    ctx.font='800 '+size+'px '+FALLBACK;
-    m=ctx.measureText(text);
-    const th=m.actualBoundingBoxAscent+m.actualBoundingBoxDescent;
-    if((m.width<=maxW&&th<=maxH)||size<=8)break;
-    size-=Math.max(1,Math.round(size*0.02));
-  }
-  const x=(width-m.width)/2;
-  const y=(height+m.actualBoundingBoxAscent-m.actualBoundingBoxDescent)/2;
-  ctx.fillText(text,x,y);
-  return c;
-}
-/* Write 300 DPI into JFIF header so printers/OS use the physical size */
-async function setJpegDpi(blob,dpi){
-  const buf=new Uint8Array(await blob.arrayBuffer());
-  if(buf[0]===0xFF&&buf[1]===0xD8&&buf[2]===0xFF&&buf[3]===0xE0&&buf[6]===0x4A&&buf[7]===0x46){
-    buf[13]=1;buf[14]=dpi>>8;buf[15]=dpi&255;buf[16]=dpi>>8;buf[17]=dpi&255;
-  }
-  return new Blob([buf],{type:'image/jpeg'});
-}
-async function downloadNumberPlateJPG(text,plate){
-  await loadBengaliFont(text);
-  const canvas=generateNumberPlateCanvas(text,plate,DPI);
-  let blob=await new Promise((res,rej)=>canvas.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',1.0));
-  blob=await setJpegDpi(blob,DPI);
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='motorcycle-number-plate-'+plate.widthMm+'x'+plate.heightMm+'mm.jpg';
-  document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),4000);
-}
+      const clean = s => String(s || '').replace(/\s+/g, ' ').replace(/^[\s\-–—]+|[\s\-–—]+$/g, '').trim();
+      function formatRegistrationNumber(f) {
+        return [f.area, f.series, f.block, f.last].map(clean).filter(Boolean).join('-');
+      }
+      function validateRegistrationNumber(f) {
+        if (!clean(f.area)) return 'অনুগ্রহ করে এলাকা / মেট্রো নির্বাচন করুন।';
+        if (!clean(f.series)) return 'অনুগ্রহ করে সিরিজ নির্বাচন করুন।';
+        if (!clean(f.block)) return 'অনুগ্রহ করে নম্বর ব্লক লিখুন।';
+        if (!clean(f.last)) return 'অনুগ্রহ করে শেষের নম্বর লিখুন।';
+        return '';
+      }
+      function calculateCanvasDimensions(p, dpi) {
+        return { width: Math.round(p.widthMm / 25.4 * dpi), height: Math.round(p.heightMm / 25.4 * dpi) };
+      }
+      let fontPromise = null;
+      function loadBengaliFont(text) {
+        const probe = (text || 'ঢাকা মেট্রো ০১২৩৪৫৬৭৮৯ ১২৩৪৫৬৭৮৯ ল') + ' ০১২৩৪৫৬৭৮৯ ১২৩৪৫৬৭৮৯-';
+        return Promise.all([
+          document.fonts.load('700 100px ' + FONT_FAMILY, probe),
+          document.fonts.load('800 100px ' + FONT_FAMILY, probe)
+        ]).then(() => document.fonts.ready).catch(() => { });
+      }
+      function generateNumberPlateCanvas(text, plate, dpi, target) {
+        const { width, height } = calculateCanvasDimensions(plate, dpi);
+        const c = target || document.createElement('canvas');
+        c.width = width; c.height = height;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, width, height);
+        const bw = Math.round(BORDER_MM / 25.4 * dpi);
+        ctx.strokeStyle = '#000000'; ctx.lineWidth = bw; ctx.lineJoin = 'miter';
+        ctx.strokeRect(bw / 2, bw / 2, width - bw, height - bw);
+        if (!text) return c;
+        const pad = Math.round(width * 0.05) + bw;
+        const maxW = width - pad * 2, maxH = height - (bw * 2 + Math.round(height * 0.12));
+        let size = Math.round(height * plate.fontRatio);
+        ctx.fillStyle = '#000000'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+        let m;
+        for (; ;) {
+          ctx.font = '800 ' + size + 'px ' + FALLBACK;
+          m = ctx.measureText(text);
+          const th = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+          if ((m.width <= maxW && th <= maxH) || size <= 8) break;
+          size -= Math.max(1, Math.round(size * 0.02));
+        }
+        const x = (width - m.width) / 2;
+        const y = (height + m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+        ctx.fillText(text, x, y);
+        return c;
+      }
+      /* Write 300 DPI into JFIF header so printers/OS use the physical size */
+      async function setJpegDpi(blob, dpi) {
+        const buf = new Uint8Array(await blob.arrayBuffer());
+        if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF && buf[3] === 0xE0 && buf[6] === 0x4A && buf[7] === 0x46) {
+          buf[13] = 1; buf[14] = dpi >> 8; buf[15] = dpi & 255; buf[16] = dpi >> 8; buf[17] = dpi & 255;
+        }
+        return new Blob([buf], { type: 'image/jpeg' });
+      }
+      async function downloadNumberPlateJPG(text, plate) {
+        await loadBengaliFont(text);
+        const canvas = generateNumberPlateCanvas(text, plate, DPI);
+        let blob = await new Promise((res, rej) => canvas.toBlob(b => b ? res(b) : rej(new Error('blob')), 'image/jpeg', 1.0));
+        blob = await setJpegDpi(blob, DPI);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'motorcycle-number-plate-' + plate.widthMm + 'x' + plate.heightMm + 'mm.jpg';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+      }
 
-/* ---------- components ---------- */
-const Field=({id,label,hint,value,onChange,placeholder})=>
-  h('div',{className:'field'},
-    h('label',{htmlFor:id},label,hint?h('span',{className:'hint'},' ('+hint+')'):null),
-    h('input',{id,type:'text',value,placeholder,onChange:e=>onChange(e.target.value),autoComplete:'off',autoCapitalize:'off',spellCheck:false,inputMode:'text'}));
+      /* ---------- components ---------- */
+      const Field = ({ id, label, hint, value, onChange, placeholder }) =>
+        h('div', { className: 'field' },
+          h('label', { htmlFor: id }, label, hint ? h('span', { className: 'hint' }, ' (' + hint + ')') : null),
+          h('input', { id, type: 'text', value, placeholder, onChange: e => onChange(e.target.value), autoComplete: 'off', autoCapitalize: 'off', spellCheck: false, inputMode: 'text' }));
 
-const PlateSizeSelector=memo(({value,onChange})=>
-  h('div',{className:'field'},
-    h('label',{htmlFor:'plate'},'নম্বরপ্লেটের ধরন'),
-    h('select',{id:'plate',value,onChange:e=>onChange(e.target.value)},
-      PLATES.map(p=>h('option',{key:p.id,value:p.id},p.label+' ('+p.widthMm+' × '+p.heightMm+' মি.মি.)')))));
+      const EN_METROS = ['Dhaka Metro', 'Chattogram Chittagong Chatta চট্টগ্রাম Metro', 'Rajshahi Metro', 'Khulna Metro', 'Sylhet Metro', 'Barishal Barisal Metro'];
+      const EN_DISTRICTS = ['Dhaka', 'Gazipur', 'Narayanganj', 'Narsingdi', 'Manikganj', 'Munshiganj', 'Kishoreganj', 'Tangail', 'Faridpur', 'Gopalganj', 'Madaripur', 'Rajbari', 'Shariatpur', 'Mymensingh', 'Jamalpur', 'Netrokona Netrakona', 'Sherpur', 'Chattogram Chittagong', 'Cox\'s Bazar Coxs Bazar', 'Cumilla Comilla', 'Feni', 'Brahmanbaria', 'Noakhali', 'Lakshmipur', 'Chandpur', 'Khagrachhari Khagrachari', 'Rangamati', 'Bandarban', 'Rajshahi', 'Natore', 'Naogaon', 'Chapainawabganj Nawabganj', 'Pabna', 'Sirajganj', 'Bogura Bogra', 'Joypurhat', 'Khulna', 'Bagerhat', 'Satkhira', 'Jashore Jessore', 'Jhenaidah', 'Magura', 'Narail', 'Kushtia', 'Chuadanga', 'Meherpur', 'Barishal Barisal', 'Bhola', 'Patuakhali', 'Pirojpur', 'Jhalokati Jhalakathi', 'Barguna', 'Sylhet', 'Moulvibazar Maulvibazar', 'Habiganj', 'Sunamganj', 'Rangpur', 'Dinajpur', 'Gaibandha', 'Kurigram', 'Lalmonirhat', 'Nilphamari', 'Panchagarh', 'Thakurgaon'];
+      const DIVS = [['ঢাকা বিভাগ', 0, 13], ['ময়মনসিংহ বিভাগ', 13, 17], ['চট্টগ্রাম বিভাগ', 17, 28], ['রাজশাহী বিভাগ', 28, 36], ['খুলনা বিভাগ', 36, 46], ['বরিশাল বিভাগ', 46, 52], ['সিলেট বিভাগ', 52, 56], ['রংপুর বিভাগ', 56, 64]];
+      const AREA_OPTIONS = [
+        { t: 'm', g: 'মেট্রো', items: METROS.map((a, i) => ({ v: a, s: (a + ' ' + EN_METROS[i]).toLowerCase() })) }
+      ].concat(DIVS.map(d => ({ t: 'd', g: 'জেলা — ' + d[0], items: DISTRICTS.slice(d[1], d[2]).map((a, i) => ({ v: a, s: (a + ' ' + EN_DISTRICTS[d[1] + i]).toLowerCase() })) })));
+      function AreaCombobox({ value, onChange }) {
+        const [q, setQ] = useState(''); const [open, setOpen] = useState(false); const [act, setAct] = useState(0); const [tab, setTab] = useState('all');
+        const listRef = useRef(null);
+        const groups = useMemo(() => {
+          const t = q.toLowerCase().trim().split(/\s+/).filter(Boolean);
+          return AREA_OPTIONS.filter(g => tab === 'all' || g.t === tab).map(g => ({ g: g.g, items: g.items.filter(o => t.every(x => o.s.includes(x))) })).filter(g => g.items.length);
+        }, [q, tab]);
+        const flat = useMemo(() => groups.flatMap(g => g.items), [groups]);
+        const pick = o => { onChange(o.v); setOpen(false); setQ(''); };
+        const onKey = e => {
+          if (e.key === 'ArrowDown') { e.preventDefault(); setOpen(true); setAct(i => Math.min(i + 1, flat.length - 1)); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); setAct(i => Math.max(i - 1, 0)); }
+          else if (e.key === 'Enter' && open && flat[act]) { e.preventDefault(); pick(flat[act]); }
+          else if (e.key === 'Escape') { setOpen(false); setQ(''); }
+        };
+        useEffect(() => {
+          const el = listRef.current && listRef.current.querySelector('[data-act="1"]');
+          if (el && el.scrollIntoView) el.scrollIntoView({ block: 'nearest' });
+        }, [act, open, q]);
+        let idx = -1;
+        return h('div', { className: 'field combo' },
+          h('label', { htmlFor: 'area' }, 'এলাকা / মেট্রো'),
+          h('div', { className: 'seg', role: 'group', 'aria-label': 'এলাকার ধরন', onMouseDown: e => e.preventDefault() },
+            [['all', 'সব'], ['m', 'মেট্রো'], ['d', 'জেলা']].map(t => h('button', { key: t[0], type: 'button', 'aria-pressed': tab === t[0], onClick: () => { setTab(t[0]); setAct(0); } }, t[1]))),
+          h('input', {
+            id: 'area', type: 'text', role: 'combobox', 'aria-expanded': open, 'aria-controls': 'area-list', 'aria-autocomplete': 'list', autoComplete: 'off', autoCapitalize: 'off', spellCheck: false,
+            value: open ? q : value, placeholder: value || 'খুঁজুন বা নির্বাচন করুন (বাংলা / English)',
+            onFocus: () => { setOpen(true); setQ(''); setAct(0); }, onBlur: () => { setOpen(false); setQ(''); },
+            onChange: e => { setQ(e.target.value); setOpen(true); setAct(0); }, onKeyDown: onKey
+          }),
+          open ? h('div', { id: 'area-list', role: 'listbox', className: 'combo-list', ref: listRef, onMouseDown: e => e.preventDefault() },
+            flat.length ? groups.map(g => h('div', { key: g.g },
+              h('div', { className: 'combo-g' }, g.g),
+              g.items.map(o => {
+                idx++; const on = idx === act;
+                return h('div', { key: o.v, role: 'option', 'aria-selected': o.v === value, 'data-act': on ? '1' : '0', className: 'combo-o' + (on ? ' on' : '') + (o.v === value ? ' sel' : ''), onMouseDown: ev => { ev.preventDefault(); pick(o); } }, o.v);
+              })))
+              : h('div', { className: 'combo-empty' }, 'কিছু পাওয়া যায়নি')) : null);
+      }
 
-const RegistrationFormView=memo(({form,setField})=>
-  h('div',null,
-    h(Field,{id:'area',label:'এলাকা / মেট্রো',value:form.area,onChange:v=>setField('area',v),placeholder:'ঢাকা মেট্রো'}),
-    h(Field,{id:'series',label:'সিরিজ',hint:'ঐচ্ছিক',value:form.series,onChange:v=>setField('series',v),placeholder:'ল'}),
-    h(Field,{id:'block',label:'নম্বর ব্লক',value:form.block,onChange:v=>setField('block',v),placeholder:'১১'}),
-    h(Field,{id:'last',label:'শেষের নম্বর',value:form.last,onChange:v=>setField('last',v),placeholder:'১১১১'})));
+      const SelectField = ({ id, label, value, onChange, children }) =>
+        h('div', { className: 'field' },
+          h('label', { htmlFor: id }, label),
+          h('select', { id, value, className: value ? '' : 'empty', onChange: e => onChange(e.target.value) },
+            h('option', { value: '', disabled: true }, 'নির্বাচন করুন'), children));
 
-const NumberPlatePreview=memo(({text,plate,fontReady})=>{
-  const ref=useRef(null);
-  useEffect(()=>{if(ref.current)generateNumberPlateCanvas(text,plate,120,ref.current);},[text,plate,fontReady]);
-  return h('div',null,
-    h('div',{className:'stage'},
-      h('canvas',{ref,role:'img','aria-label':'নম্বরপ্লেটের প্রিভিউ: '+text,style:{width:'100%',maxWidth:plate.widthMm*2.6+'px',aspectRatio:plate.widthMm+' / '+plate.heightMm}})),
-    h('p',{className:'meta'},plate.widthMm+' × '+plate.heightMm+' মি.মি. • ডাউনলোড সাইজ '+calculateCanvasDimensions(plate,DPI).width+' × '+calculateCanvasDimensions(plate,DPI).height+' পিক্সেল'));
-});
+      const PlateSizeSelector = memo(({ value, onChange }) =>
+        h('div', { className: 'field' },
+          h('label', { htmlFor: 'plate' }, 'নম্বরপ্লেটের ধরন'),
+          h('select', { id: 'plate', value, onChange: e => onChange(e.target.value) },
+            PLATES.map(p => h('option', { key: p.id, value: p.id }, p.label + ' (' + p.widthMm + ' × ' + p.heightMm + ' মি.মি.)')))));
 
-const DownloadIcon=()=>h('svg',{width:22,height:22,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true},
-  h('path',{d:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'}),h('polyline',{points:'7 10 12 15 17 10'}),h('line',{x1:12,y1:15,x2:12,y2:3}));
+      const RegistrationFormView = memo(({ form, setField }) =>
+        h('div', null,
+          h(AreaCombobox, { value: form.area, onChange: v => setField('area', v) }),
+          h(SelectField, { id: 'series', label: 'সিরিজ', value: form.series, onChange: v => setField('series', v) },
+            ['ল', 'হ'].map(s => h('option', { key: s, value: s }, s))),
+          h(Field, { id: 'block', label: 'নম্বর ব্লক', value: form.block, onChange: v => setField('block', v), placeholder: '১১' }),
+          h(Field, { id: 'last', label: 'শেষের নম্বর', value: form.last, onChange: v => setField('last', v), placeholder: '১১১১' })));
 
-const DownloadButton=({busy,onClick})=>
-  h('button',{type:'button',className:'btn',onClick,disabled:busy,'aria-busy':busy,'aria-label':'JPG ডাউনলোড করুন'},
-    busy?h('span',{className:'spin','aria-hidden':true}):h(DownloadIcon),
-    busy?'তৈরি হচ্ছে…':'JPG ডাউনলোড করুন');
+      const NumberPlatePreview = memo(({ text, plate, fontReady }) => {
+        const ref = useRef(null);
+        useEffect(() => { if (ref.current) generateNumberPlateCanvas(text, plate, 120, ref.current); }, [text, plate, fontReady]);
+        return h('div', null,
+          h('div', { className: 'stage' },
+            h('canvas', { ref, role: 'img', 'aria-label': 'নম্বরপ্লেটের প্রিভিউ: ' + text, style: { width: '100%', maxWidth: plate.widthMm * 2.6 + 'px', aspectRatio: plate.widthMm + ' / ' + plate.heightMm } })),
+          h('p', { className: 'meta' }, (text ? '' : 'তথ্য দিলে প্রিভিউতে নম্বর দেখা যাবে। ') + plate.widthMm + ' × ' + plate.heightMm + ' মি.মি. • ডাউনলোড সাইজ ' + calculateCanvasDimensions(plate, DPI).width + ' × ' + calculateCanvasDimensions(plate, DPI).height + ' পিক্সেল'));
+      });
 
-function NumberPlateGenerator(){
-  const [form,setForm]=useState({area:'ঢাকা মেট্রো',series:'',block:'১১',last:'১১১১'});
-  const [plateId,setPlateId]=useState('scooter');
-  const [busy,setBusy]=useState(false);
-  const [error,setError]=useState('');
-  const [ok,setOk]=useState('');
-  const [fontReady,setFontReady]=useState(false);
-  const busyRef=useRef(false);
-  const plate=useMemo(()=>PLATES.find(p=>p.id===plateId),[plateId]);
-  const text=useMemo(()=>formatRegistrationNumber(form),[form]);
-  const setField=useCallback((k,v)=>{setForm(f=>({...f,[k]:v}));setError('');setOk('');},[]);
-  useEffect(()=>{loadBengaliFont().then(()=>setFontReady(true));},[]);
-  const onDownload=async()=>{
-    if(busyRef.current)return;
-    const v=validateRegistrationNumber(form);
-    if(v){setError(v);setOk('');return;}
-    busyRef.current=true;setBusy(true);setError('');setOk('');
-    try{
-      await downloadNumberPlateJPG(text,plate);
-      setOk('ডাউনলোড শুরু হয়েছে।');
-    }catch(e){
-      setError('ছবি তৈরি করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
-    }finally{busyRef.current=false;setBusy(false);}
-  };
-  return h('div',{className:'wrap'},
-    h('header',null,
-      h('h1',null,'মোটরসাইকেল নম্বরপ্লেট জেনারেটর'),
-      h('p',{className:'sub'},'আপনার মোটরসাইকেলের রেজিস্ট্রেশন নম্বর লিখুন এবং প্রিন্ট করার উপযোগী উচ্চমানের JPG ডাউনলোড করুন।')),
-    h('main',{className:'grid'},
-      h('section',{className:'card','aria-labelledby':'f'},
-        h('h2',{id:'f'},'রেজিস্ট্রেশন তথ্য'),
-        h(RegistrationFormView,{form,setField}),
-        h(PlateSizeSelector,{value:plateId,onChange:v=>{setPlateId(v);setError('');setOk('');}})),
-      h('section',{className:'card','aria-labelledby':'p'},
-        h('h2',{id:'p'},'লাইভ প্রিভিউ'),
-        h(NumberPlatePreview,{text,plate,fontReady}),
-        h(DownloadButton,{busy,onClick:onDownload}),
-        error?h('div',{className:'msg err',role:'alert'},error):null,
-        ok?h('div',{className:'msg ok',role:'status'},ok):null,
-        h('div',{className:'notes'},
-          h('p',null,'JPG ছবিটি ৩০০ DPI রেজোলিউশনে তৈরি হবে।'),
-          h('p',null,'সেরা ফলাফলের জন্য প্রিন্ট করার সময় ১০০% বা Actual Size নির্বাচন করুন।'),
-          h('p',null,'ছবিটি এর নির্ধারিত মাপে ('+plate.widthMm+' × '+plate.heightMm+' মি.মি.) প্রিন্ট করতে হবে; ফিট টু পেজ বা স্কেল করবেন না।')))),
-    h('p',{className:'disc'},'এটি শুধুমাত্র ছবি তৈরি ও প্রিন্টের প্রস্তুতির একটি টুল। এটি বিআরটিএ-র কোনো অফিসিয়াল নথি নয় এবং আইনি অনুমোদনের নিশ্চয়তা দেয় না। মাপ ও নকশা প্রিন্ট করার আগে বিআরটিএ-র সর্বশেষ নির্দেশনা অনুযায়ী যাচাই করুন। সব কাজ আপনার ব্রাউজারেই হয়; কোনো তথ্য আপলোড হয় না।'));
-}
-ReactDOM.createRoot(document.getElementById('root')).render(h(NumberPlateGenerator));
-})();
-</script>
+      const DownloadIcon = () => h('svg', { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true },
+        h('path', { d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' }), h('polyline', { points: '7 10 12 15 17 10' }), h('line', { x1: 12, y1: 15, x2: 12, y2: 3 }));
+
+      const DownloadButton = ({ busy, onClick }) =>
+        h('button', { type: 'button', className: 'btn', onClick, disabled: busy, 'aria-busy': busy, 'aria-label': 'JPG ডাউনলোড করুন' },
+          busy ? h('span', { className: 'spin', 'aria-hidden': true }) : h(DownloadIcon),
+          busy ? 'তৈরি হচ্ছে…' : 'JPG ডাউনলোড করুন');
+
+      function NumberPlateGenerator() {
+        const [form, setForm] = useState({ area: '', series: '', block: '', last: '' });
+        const [plateId, setPlateId] = useState('scooter');
+        const [busy, setBusy] = useState(false);
+        const [error, setError] = useState('');
+        const [ok, setOk] = useState('');
+        const [fontReady, setFontReady] = useState(false);
+        const busyRef = useRef(false);
+        const plate = useMemo(() => PLATES.find(p => p.id === plateId), [plateId]);
+        const text = useMemo(() => formatRegistrationNumber(form), [form]);
+        const setField = useCallback((k, v) => { setForm(f => ({ ...f, [k]: v })); setError(''); setOk(''); }, []);
+        useEffect(() => { loadBengaliFont().then(() => setFontReady(true)); }, []);
+        const onDownload = async () => {
+          if (busyRef.current) return;
+          const v = validateRegistrationNumber(form);
+          if (v) { setError(v); setOk(''); return; }
+          busyRef.current = true; setBusy(true); setError(''); setOk('');
+          try {
+            await downloadNumberPlateJPG(text, plate);
+            setOk('ডাউনলোড শুরু হয়েছে।');
+          } catch (e) {
+            setError('ছবি তৈরি করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
+          } finally { busyRef.current = false; setBusy(false); }
+        };
+        return h('div', { className: 'wrap' },
+          h('header', null,
+            h('h1', null, 'মোটরসাইকেল নম্বরপ্লেট জেনারেটর'),
+            h('p', { className: 'sub' }, 'আপনার মোটরসাইকেলের রেজিস্ট্রেশন নম্বর লিখুন এবং প্রিন্ট করার উপযোগী উচ্চমানের JPG ডাউনলোড করুন।')),
+          h('main', { className: 'grid' },
+            h('section', { className: 'card', 'aria-labelledby': 'f' },
+              h('h2', { id: 'f' }, 'রেজিস্ট্রেশন তথ্য'),
+              h(RegistrationFormView, { form, setField }),
+              h(PlateSizeSelector, { value: plateId, onChange: v => { setPlateId(v); setError(''); setOk(''); } })),
+            h('section', { className: 'card', 'aria-labelledby': 'p' },
+              h('h2', { id: 'p' }, 'লাইভ প্রিভিউ'),
+              h(NumberPlatePreview, { text, plate, fontReady }),
+              h(DownloadButton, { busy, onClick: onDownload }),
+              error ? h('div', { className: 'msg err', role: 'alert' }, error) : null,
+              ok ? h('div', { className: 'msg ok', role: 'status' }, ok) : null,
+              h('div', { className: 'notes' },
+                h('p', null, 'JPG ছবিটি ৩০০ DPI রেজোলিউশনে তৈরি হবে।'),
+                h('p', null, 'সেরা ফলাফলের জন্য প্রিন্ট করার সময় ১০০% বা Actual Size নির্বাচন করুন।'),
+                h('p', null, 'ছবিটি এর নির্ধারিত মাপে (' + plate.widthMm + ' × ' + plate.heightMm + ' মি.মি.) প্রিন্ট করতে হবে; ফিট টু পেজ বা স্কেল করবেন না।')))),
+          h('p', { className: 'disc' }, 'এটি শুধুমাত্র ছবি তৈরি ও প্রিন্টের প্রস্তুতির একটি টুল। এটি বিআরটিএ-র কোনো অফিসিয়াল নথি নয় এবং আইনি অনুমোদনের নিশ্চয়তা দেয় না। মাপ ও নকশা প্রিন্ট করার আগে বিআরটিএ-র সর্বশেষ নির্দেশনা অনুযায়ী যাচাই করুন। সব কাজ আপনার ব্রাউজারেই হয়; কোনো তথ্য আপলোড হয় না।'));
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(h(NumberPlateGenerator));
+    })();
+  </script>
 </body>
+
 </html>
